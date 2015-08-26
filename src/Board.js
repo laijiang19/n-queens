@@ -79,61 +79,138 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
+      var count = 0;
+      var row = this.get(rowIndex);
+      for  (var i = 0; i < this.rows().length; i++) {
+        if (row[i] === 1) {
+          count++;
+          if (count > 1) {
+            return true;
+          }
+        }
+      }
       return false; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      for (var i = 0; i < rows.length; i++){
+         if (this.hasRowConflictAt(i)) {
+          return true;
+         }
+      }
+      
+      return false;
     },
-
-
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var rows = this.rows();
+      var col = _.reduce(rows, function(acc, current) {
+         acc.push(current[0]);
+         return acc;
+      }, []);
+      var count = 0;
+      for  (var i = 0; i < col.length; i++) {
+        if (col[i] === 1) {
+          count++;
+          if (count > 1) {
+            return true;
+          }
+        }
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var n = this.rows().length;
+      for (var i = 0; i < n; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
-
-
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var diagIndex = arguments[0];
+
+      var diag = _.reduce(this.rows(), function(acc, curr, i){
+        acc.push(curr[diagIndex + i]);
+        return acc;
+      }, []);
+      var count = 0;
+      for  (var i = 0; i < diag.length; i++) {
+        if (diag[i] === 1) {
+          count++;
+          if (count > 1) {
+            return true;
+          }
+        } 
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+
+      var index = this.rows().length - 1;
+      var max = index - 1;
+      var min = 1 - index;
+      for (var i = min; i <= max; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
+
     },
-
-
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var diagIndex = arguments[0];
+      var diag = _.reduce(this.rows(), function(acc, curr, i){
+        acc.push(curr[diagIndex - i]);
+        return acc;
+      }, []);
+      var count = 0;
+      for  (var i = 0; i < diag.length; i++) {
+        if (diag[i] === 1) {
+          count++;
+          if (count > 1) {
+            return true;
+          }
+        } 
+      }
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var index = this.rows().length - 1;
+      var max = index * 2 - 1;
+      var min = 1;
+      for (var i = min; i <= max; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
-
 
   });
 
