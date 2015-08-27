@@ -111,7 +111,7 @@
     hasColConflictAt: function(colIndex) {
       var rows = this.rows();
       var col = _.reduce(rows, function(acc, current) {
-         acc.push(current[0]);
+         acc.push(current[colIndex]);
          return acc;
       }, []);
       var count = 0;
@@ -200,7 +200,7 @@
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var index = this.rows().length - 1;
-      var max = index * 2 - 1;
+      var max = index + index - 1;
       var min = 1;
       for (var i = min; i <= max; i++) {
         if (this.hasMinorDiagonalConflictAt(i)) {
