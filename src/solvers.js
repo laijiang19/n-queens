@@ -27,17 +27,9 @@ window.findNRooksSolution = function(n) {
       }
 
       board.togglePiece(rowIndex, i);
-      // console.log('---- 1 before checking conflict');
-      // console.table(board.rows());
-      // console.log('---- 2 before checking conflict');
+
       if (!board.hasColConflictAt(i)) {
-        // console.log('---- 3 after checking conflict');
-        // console.table(board.rows()); 
-        // console.log('---- 4 after checking conflict');   
         if (rowIndex === 0) {
-          // console.log('---- 5 rowIndex is 0, about to return');
-          // console.table(board.rows());
-          // console.log('---- 6 rowIndex is 0, about to return');
           solution = JSON.parse(JSON.stringify(board.rows()));
           found = true;
           break;
